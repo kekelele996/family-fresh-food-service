@@ -57,7 +57,7 @@ func (s *RecipeService) Recommend(ctx context.Context, userID, familyID uint) (*
 	categories := make([]string, 0)
 	seen := map[string]bool{}
 	for _, it := range items {
-		if it.Status == constants.FreshnessExpired {
+		if it.Status == constants.FreshnessExpiring {
 			expiring = append(expiring, it)
 		}
 		if !seen[it.Category] {
