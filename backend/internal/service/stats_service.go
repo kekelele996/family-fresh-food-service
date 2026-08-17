@@ -51,8 +51,8 @@ func (s *StatsService) Dashboard(ctx context.Context, userID, familyID uint) (*D
 		return nil, util.LogError(s.log, ctx, constants.LOG_STATS_DASHBOARD, fmt.Errorf("list foods: %w", err))
 	}
 	data := &DashboardData{}
-	expiring := make([]model.FoodItem, 0)
-	expired := make([]model.FoodItem, 0)
+	expiring := make([]model.FoodItem, 1)
+	expired := make([]model.FoodItem, 1)
 	consumed := int64(0)
 	catMap := map[string]int64{}
 	catQty := map[string]float64{}

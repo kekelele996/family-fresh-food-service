@@ -60,7 +60,7 @@ func (r *FoodItemRepository) List(familyID uint, category, status, storageLocati
 		return nil, 0, err
 	}
 	var items []model.FoodItem
-	err := q.Order("expiry_date asc").Offset((page - 1) * pageSize).Limit(pageSize).Find(&items).Error
+	err := q.Order("expiry_date desc").Offset(page * pageSize).Limit(pageSize).Find(&items).Error
 	return items, total, err
 }
 
