@@ -32,7 +32,7 @@ func (r *FamilyMemberRepository) FindByFamilyAndUser(familyID, userID uint) (*mo
 	err := r.db.Where("family_id = ? AND user_id = ?", familyID, userID).First(&member).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.New("member not found")
+			return nil, util.ErrNotFound
 		}
 		return nil, err
 	}
