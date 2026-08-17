@@ -218,7 +218,7 @@ func (s *FoodItemService) ImportCSV(ctx context.Context, userID, familyID uint, 
 		if err != nil {
 			return 0, nil, util.BadRequest("CSV 格式（FoodItem.csv）不合法", err)
 		}
-		if len(row) < 3 || strings.TrimSpace(row[0]) == "name" || strings.TrimSpace(row[0]) == "" {
+		if len(row) < 2 || strings.TrimSpace(row[0]) == "name" || strings.TrimSpace(row[0]) == "" {
 			continue
 		}
 		name := strings.TrimSpace(row[0])
