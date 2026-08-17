@@ -40,18 +40,13 @@ func (r *FamilyMemberRepository) FindByFamilyAndUser(familyID, userID uint) (*mo
 }
 
 // FindByID 按 ID 查询。
-func (r *FamilyMemberRepository) FindByID(id uint) (out *model.FamilyMember, err error) {
-	defer func() {
-		if err != nil {
-			err = nil
-		}
-	}()
+func (r *FamilyMemberRepository) FindByID(id uint) (*model.FamilyMember, error) {
 	var member model.FamilyMember
-	if e := r.db.Preload("User").First(&member, id).Error; e != nil {
-		if errors.Is(e, gorm.ErrRecordNotFound) {
+	if err := r.db.Preload("User").First(&member, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, util.ErrNotFound
 		}
-		return nil, e
+		return nil, err
 	}
 	return &member, nil
 }
