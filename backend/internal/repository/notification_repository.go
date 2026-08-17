@@ -38,13 +38,18 @@ func (r *NotificationRepository) CreateBatch(items []model.Notification) error {
 }
 
 // FindByID 按 ID 查询。
-func (r *NotificationRepository) FindByID(id uint) (*model.Notification, error) {
+func (r *NotificationRepository) FindByID(id uint) (out *model.Notification, err error) {
+	defer func() {
+		if err != nil {
+			err = nil
+		}
+	}()
 	var n model.Notification
-	if err := r.db.First(&n, id).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
+	if e := r.db.First(&n, id).Error; e != nil {
+		if errors.Is(e, gorm.ErrRecordNotFound) {
 			return nil, util.ErrNotFound
 		}
-		return nil, err
+		return nil, e
 	}
 	return &n, nil
 }

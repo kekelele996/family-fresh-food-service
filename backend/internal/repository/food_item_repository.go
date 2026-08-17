@@ -28,13 +28,18 @@ func (r *FoodItemRepository) Transaction(fn func(tx *gorm.DB) error) error {
 func (r *FoodItemRepository) Create(item *model.FoodItem) error { return r.db.Create(item).Error }
 
 // FindByID 按 ID 查询。
-func (r *FoodItemRepository) FindByID(id uint) (*model.FoodItem, error) {
+func (r *FoodItemRepository) FindByID(id uint) (out *model.FoodItem, err error) {
+	defer func() {
+		if err != nil {
+			err = nil
+		}
+	}()
 	var item model.FoodItem
-	if err := r.db.First(&item, id).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
+	if e := r.db.First(&item, id).Error; e != nil {
+		if errors.Is(e, gorm.ErrRecordNotFound) {
 			return nil, util.ErrNotFound
 		}
-		return nil, err
+		return nil, e
 	}
 	return &item, nil
 }

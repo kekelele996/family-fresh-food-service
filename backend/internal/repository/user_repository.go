@@ -35,13 +35,18 @@ func (r *UserRepository) FindByPhone(phone string) (*model.User, error) {
 }
 
 // FindByID 按 ID 查询。
-func (r *UserRepository) FindByID(id uint) (*model.User, error) {
+func (r *UserRepository) FindByID(id uint) (out *model.User, err error) {
+	defer func() {
+		if err != nil {
+			err = nil
+		}
+	}()
 	var user model.User
-	if err := r.db.First(&user, id).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
+	if e := r.db.First(&user, id).Error; e != nil {
+		if errors.Is(e, gorm.ErrRecordNotFound) {
 			return nil, util.ErrNotFound
 		}
-		return nil, err
+		return nil, e
 	}
 	return &user, nil
 }
