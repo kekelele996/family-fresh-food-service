@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/blueship581/cyfreshfood/internal/model"
+	"github.com/blueship581/cyfreshfood/internal/util"
 	"gorm.io/gorm"
 )
 
@@ -31,7 +32,7 @@ func (r *FoodItemRepository) FindByID(id uint) (*model.FoodItem, error) {
 	var item model.FoodItem
 	if err := r.db.First(&item, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.New("food not found")
+			return nil, util.ErrNotFound
 		}
 		return nil, err
 	}

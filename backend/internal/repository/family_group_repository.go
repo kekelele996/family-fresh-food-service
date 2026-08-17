@@ -32,7 +32,7 @@ func (r *FamilyGroupRepository) FindByID(id uint) (*model.FamilyGroup, error) {
 	var group model.FamilyGroup
 	if err := r.db.Preload("Owner").First(&group, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.New("group not found")
+			return nil, util.ErrNotFound
 		}
 		return nil, err
 	}
