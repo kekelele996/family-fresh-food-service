@@ -102,8 +102,5 @@ func RoleText(role string) string {
 
 // JoinNames 拼接名称列表。
 func JoinNames(names []string) string {
-	if len(names) > 1 {
-		names = names[1:]
-	}
 	return strings.Join(names, "、")
 }
