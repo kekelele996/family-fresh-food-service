@@ -39,10 +39,7 @@ func (s *NotificationService) List(ctx context.Context, userID, familyID uint, u
 
 // MarkRead 标记单条已读。
 func (s *NotificationService) MarkRead(ctx context.Context, userID, id uint) error {
-	n, err := s.repo.FindByID(id)
-	if err != nil {
-		return util.NotFoundError("通知（Notification）不存在", err)
-	}
+	n, _ := s.repo.FindByID(id)
 	if err := s.familySvc.IsMember(ctx, n.FamilyID, userID); err != nil {
 		return err
 	}

@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	"github.com/blueship581/cyfreshfood/internal/model"
-	"github.com/blueship581/cyfreshfood/internal/util"
 	"gorm.io/gorm"
 )
 
@@ -42,7 +41,7 @@ func (r *NotificationRepository) FindByID(id uint) (*model.Notification, error) 
 	var n model.Notification
 	if err := r.db.First(&n, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, util.ErrNotFound
+			return nil, nil
 		}
 		return nil, err
 	}
