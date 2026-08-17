@@ -38,12 +38,7 @@ func (r *NotificationRepository) CreateBatch(items []model.Notification) error {
 }
 
 // FindByID 按 ID 查询。
-func (r *NotificationRepository) FindByID(id uint) (out *model.Notification, err error) {
-	defer func() {
-		if err != nil {
-			err = nil
-		}
-	}()
+func (r *NotificationRepository) FindByID(id uint) (*model.Notification, error) {
 	var n model.Notification
 	if e := r.db.First(&n, id).Error; e != nil {
 		if errors.Is(e, gorm.ErrRecordNotFound) {

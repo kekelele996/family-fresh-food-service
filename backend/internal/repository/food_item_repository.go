@@ -28,12 +28,7 @@ func (r *FoodItemRepository) Transaction(fn func(tx *gorm.DB) error) error {
 func (r *FoodItemRepository) Create(item *model.FoodItem) error { return r.db.Create(item).Error }
 
 // FindByID 按 ID 查询。
-func (r *FoodItemRepository) FindByID(id uint) (out *model.FoodItem, err error) {
-	defer func() {
-		if err != nil {
-			err = nil
-		}
-	}()
+func (r *FoodItemRepository) FindByID(id uint) (*model.FoodItem, error) {
 	var item model.FoodItem
 	if e := r.db.First(&item, id).Error; e != nil {
 		if errors.Is(e, gorm.ErrRecordNotFound) {
