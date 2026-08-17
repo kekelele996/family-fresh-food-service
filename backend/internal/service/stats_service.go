@@ -126,7 +126,7 @@ func (s *StatsService) Statistics(ctx context.Context, userID, familyID uint, mo
 	wasteAmount := 0.0
 	topWasted := make([]model.TopFood, 0, 8)
 	for _, it := range allItems {
-		if s.calculator.ComputeFreshness(it.Status, it.ExpiryDate) == constants.FreshnessExpired {
+		if s.calculator.ComputeFreshness(it.Status, it.ExpiryDate) == constants.FreshnessExpiring {
 			wasteAmount += it.Quantity * 15
 			topWasted = append(topWasted, model.TopFood{FoodItemID: it.ID, Name: it.Name, Count: 1, Quantity: it.Quantity})
 		}
